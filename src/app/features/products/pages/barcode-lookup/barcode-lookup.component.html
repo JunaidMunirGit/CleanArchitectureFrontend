@@ -1,0 +1,41 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Barcode Lookup</mat-card-title>
+    <mat-card-subtitle>Enter or scan a barcode to find the product</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field appearance="outline" class="barcode-field">
+      <mat-label>Barcode</mat-label>
+      <input
+        matInput
+        [(ngModel)]="barcode"
+        (keyup)="onBarcodeKeyup()"
+        placeholder="Type or scan barcode"
+        autofocus
+      />
+    </mat-form-field>
+    <button mat-flat-button color="primary" (click)="onSearch()">Search</button>
+
+    @if (loading()) {
+      <p>Loading...</p>
+    }
+    @if (notFound() && !loading()) {
+      <p class="not-found">No product found for this barcode.</p>
+    }
+    @if (product(); as p) {
+      <div class="product-card">
+        <h3>{{ p.name }}</h3>
+        <p><strong>SKU:</strong> {{ p.sku }}</p>
+        <p><strong>Price:</strong> {{ p.sellingPrice | number: '1.2-2' }}</p>
+        @if (p.effectivePrice != null) {
+          <p><strong>Effective:</strong> {{ p.effectivePrice | number: '1.2-2' }}</p>
+        }
+        <p>Status: {{ p.isActive ? 'Active' : 'Inactive' }}</p>
+        <a mat-button [routerLink]="['/products', p.id, 'edit']">Edit product</a>
+      </div>
+    }
+    <div class="back">
+      <a mat-button routerLink="/products">Back to list</a>
+    </div>
+  </mat-card-content>
+</mat-card>

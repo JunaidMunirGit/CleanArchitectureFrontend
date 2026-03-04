@@ -1,0 +1,23 @@
+.product-list .toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.product-list .toolbar h1 {
+  margin: 0;
+}
+.product-list .actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.product-list .filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.product-list .filter-field {
+  min-width: 160px;
+}

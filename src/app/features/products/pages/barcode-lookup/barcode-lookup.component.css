@@ -1,0 +1,4 @@
+.barcode-field { width: 100%; max-width: 320px; margin-right: 0.5rem; }
+.product-card { margin-top: 1rem; padding: 1rem; border: 1px solid #ccc; border-radius: 8px; }
+.not-found { color: #c62828; margin-top: 1rem; }
+.back { margin-top: 1rem; }

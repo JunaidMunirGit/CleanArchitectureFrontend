@@ -1,0 +1,88 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ isEdit() ? 'Edit Product' : 'New Product' }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>SKU</mat-label>
+          <input matInput formControlName="sku" [readonly]="isEdit()" />
+          @if (form.get('sku')?.hasError('required')) {
+            <mat-error>SKU is required</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" />
+          @if (form.get('name')?.hasError('required')) {
+            <mat-error>Name is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="2"></textarea>
+      </mat-form-field>
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Category ID</mat-label>
+          <input matInput formControlName="categoryId" />
+          <mat-error>Required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Brand ID</mat-label>
+          <input matInput formControlName="brandId" />
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Unit of Measure ID</mat-label>
+          <input matInput formControlName="unitOfMeasureId" />
+          <mat-error>Required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Tax Category ID</mat-label>
+          <input matInput formControlName="taxCategoryId" />
+          <mat-error>Required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Cost Price</mat-label>
+          <input matInput type="number" formControlName="costPrice" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Selling Price</mat-label>
+          <input matInput type="number" formControlName="sellingPrice" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Reorder Level</mat-label>
+          <input matInput type="number" formControlName="reorderLevel" />
+        </mat-form-field>
+      </div>
+      <div class="form-row checkboxes">
+        <mat-checkbox formControlName="discountable">Discountable</mat-checkbox>
+        <mat-checkbox formControlName="trackInventory">Track Inventory</mat-checkbox>
+      </div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Image URL</mat-label>
+        <input matInput formControlName="imageUrl" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Barcodes (one per line or comma-separated)</mat-label>
+        <textarea matInput formControlName="barcodes" rows="3"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Primary Barcode</mat-label>
+        <input matInput formControlName="primaryBarcode" />
+      </mat-form-field>
+      <div class="actions">
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+          {{ isEdit() ? 'Update' : 'Create' }}
+        </button>
+        <a mat-button routerLink="/products">Cancel</a>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

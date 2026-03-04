@@ -1,14 +1,14 @@
-/* Global styles */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
 html, body {
   height: 100%;
+  margin: 0;
 }
 
 body {
-  margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-/* Material overrides if needed */
 .mat-mdc-form-field {
   width: 100%;
 }

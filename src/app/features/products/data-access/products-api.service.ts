@@ -52,7 +52,7 @@ export class ProductsApiService {
   }
 
   update(id: string, body: UpdateProductRequest): Observable<void> {
-    return this.api.put<void>(`/v1/products/${id}`, { ...body, id });
+    return this.api.put<void>(`/v1/products/${id}`, body);
   }
 
   delete(id: string, rowVersionBase64: string): Observable<void> {

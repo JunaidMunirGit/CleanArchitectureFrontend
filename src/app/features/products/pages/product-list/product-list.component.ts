@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { Component, inject, OnInit, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -30,6 +30,7 @@ import type { ProductListItem } from '../../models/product.models';
     ProductListTableComponent,
   ],
   templateUrl: './product-list.component.html',
+  styleUrl: './product-list.component.css',
 })
 export class ProductListComponent implements OnInit {
   private readonly store = inject(ProductsStore);
@@ -37,9 +38,9 @@ export class ProductListComponent implements OnInit {
   readonly listResult = this.store.listResult;
   readonly listParamsState = this.store.listParamsState;
 
-  readonly searchQ = signal('');
-  readonly searchSku = signal('');
-  readonly filterActive = signal<boolean | undefined>(undefined);
+  searchQ = '';
+  searchSku = '';
+  filterActive: boolean | undefined = undefined;
 
   readonly dataSource = computed(() => {
     const result = this.listResult();
@@ -52,9 +53,9 @@ export class ProductListComponent implements OnInit {
 
   onSearch(): void {
     this.store.loadList({
-      q: this.searchQ() || undefined,
-      sku: this.searchSku() || undefined,
-      isActive: this.filterActive(),
+      q: this.searchQ || undefined,
+      sku: this.searchSku || undefined,
+      isActive: this.filterActive,
       pageNumber: 1,
     });
   }

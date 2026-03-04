@@ -1,59 +1,55 @@
-# Frontend
+# POS Frontend (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.0.
+Enterprise Angular frontend for the Clean Architecture .NET backend. Consumes Product APIs under `/api/v1/products`.
 
-## Development server
+## Structure
 
-To start a local development server, run:
+- **core** – API client, HTTP interceptors (auth, correlation id, error, loading), layout shell
+- **shared** – Notification service, reusable UI (extend as needed)
+- **features/products** – List (table + pagination + filters), create/edit form, bulk import, barcode lookup, branch price editor
+- **features/branches** – Placeholder for future branch management
 
-```bash
-ng serve
-```
+## Tech
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Angular 19, Standalone APIs
+- Angular Material (table, paginator, cards, forms, snackbar)
+- Reactive Forms, typed models matching backend DTOs
+- Lightweight RxJS-based store per feature (no NgRx)
+- Lazy-loaded feature routes
 
-## Code scaffolding
+## Run
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. **Backend**  
+   Run the .NET API (e.g. `dotnet run` in `src/Web.Api`). Default: `https://localhost:5001`.
 
-```bash
-ng generate component component-name
-```
+2. **Frontend**
+   ```bash
+   cd frontend
+   npm install
+   npm start
+   ```
+   App is at `http://localhost:4200`. Proxy forwards `/api` to `https://localhost:5001`.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Build
 
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
+## Auth (placeholder)
 
-For end-to-end (e2e) testing, run:
+The auth interceptor sends `Authorization: Bearer <token>` if `localStorage.auth_token` is set. To test with a real token, log in via the backend (e.g. `/users/login`), then set `localStorage.setItem('auth_token', '<jwt>')` in the browser console.
 
-```bash
-ng e2e
-```
+## Key files
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+| Area | Path |
+|------|------|
+| Routes + shell | `src/app/app.routes.ts`, `core/layout/shell/shell.component.ts` |
+| Interceptors | `core/interceptors/*.ts` |
+| Product API | `features/products/data-access/products-api.service.ts` |
+| Product store | `features/products/data-access/products.store.ts` |
+| Product list | `features/products/pages/product-list/`, `features/products/ui/product-list-table/` |
+| Product form | `features/products/pages/product-form/` |
+| Bulk import | `features/products/pages/bulk-import/` |
+| Barcode lookup | `features/products/pages/barcode-lookup/` |
+| Branch prices | `features/products/pages/branch-price-editor/` |

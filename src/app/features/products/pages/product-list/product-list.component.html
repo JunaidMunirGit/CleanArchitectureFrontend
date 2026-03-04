@@ -1,0 +1,42 @@
+<div class="product-list">
+  <div class="toolbar">
+    <h1>Products</h1>
+    <div class="actions">
+      <a mat-flat-button color="primary" routerLink="/products/new">New Product</a>
+      <a mat-button routerLink="/products/bulk">Bulk Import</a>
+      <a mat-button routerLink="/products/barcode">Barcode Lookup</a>
+    </div>
+  </div>
+
+  <div class="filters">
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Search (name/SKU)</mat-label>
+      <input matInput [(ngModel)]="searchQ" (keyup.enter)="onSearch()" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>SKU</mat-label>
+      <input matInput [(ngModel)]="searchSku" (keyup.enter)="onSearch()" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="filterActive">
+        <mat-option [value]="undefined">All</mat-option>
+        <mat-option [value]="true">Active</mat-option>
+        <mat-option [value]="false">Inactive</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-flat-button color="primary" (click)="onSearch()">Search</button>
+    <button mat-button (click)="onRefresh()">Refresh</button>
+  </div>
+
+  <app-product-list-table
+    [items]="dataSource()"
+    [totalCount]="(listResult()?.totalCount) ?? 0"
+    [pageIndex]="((listParamsState()?.pageNumber) ?? 1) - 1"
+    [pageSize]="listParamsState()?.pageSize ?? 20"
+    [sortBy]="listParamsState()?.sortBy ?? 'UpdatedAt'"
+    [sortDir]="(listParamsState()?.sortDir as 'asc' | 'desc') ?? 'desc'"
+    (page)="onPage($event)"
+    (sort)="onSort($event.sortBy, $event.sortDir)"
+  ></app-product-list-table>
+</div>

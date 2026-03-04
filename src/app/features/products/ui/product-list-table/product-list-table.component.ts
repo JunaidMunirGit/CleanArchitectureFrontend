@@ -1,32 +1,34 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import type { ProductListItem } from '../../models/product.models';
 
 @Component({
   selector: 'app-product-list-table',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, MatChipsModule],
+  imports: [RouterLink, MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, MatChipsModule, MatTooltipModule, DatePipe, DecimalPipe],
   template: `
     <div class="table-container">
-      <table mat-table [dataSource]="items" matSort (matSortChange)="onSortChange($event)">
+      <table mat-table [dataSource]="items">
         <ng-container matColumnDef="sku">
-          <th mat-header-cell *matHeaderCellDef>SKU</th>
+          <th mat-header-cell *matHeaderCellDef (click)="emitSort('Sku')">SKU</th>
           <td mat-cell *matCellDef="let row">
             <a [routerLink]="['/products', row.id, 'edit']">{{ row.sku }}</a>
           </td>
         </ng-container>
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <th mat-header-cell *matHeaderCellDef (click)="emitSort('Name')">Name</th>
           <td mat-cell *matCellDef="let row">{{ row.name }}</td>
         </ng-container>
         <ng-container matColumnDef="sellingPrice">
-          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <th mat-header-cell *matHeaderCellDef (click)="emitSort('SellingPrice')">Price</th>
           <td mat-cell *matCellDef="let row">{{ row.sellingPrice | number: '1.2-2' }}</td>
         </ng-container>
         <ng-container matColumnDef="isActive">
@@ -38,7 +40,7 @@ import type { ProductListItem } from '../../models/product.models';
           </td>
         </ng-container>
         <ng-container matColumnDef="updatedAt">
-          <th mat-header-cell *matHeaderCellDef>Updated</th>
+          <th mat-header-cell *matHeaderCellDef (click)="emitSort('UpdatedAt')">Updated</th>
           <td mat-cell *matCellDef="let row">{{ row.updatedAt | date: 'short' }}</td>
         </ng-container>
         <ng-container matColumnDef="actions">
@@ -95,9 +97,8 @@ export class ProductListTableComponent {
     return item.id;
   }
 
-  onSortChange(event: { active: string; direction: string }): void {
-    const dir = (event.direction === 'asc' ? 'asc' : 'desc') as 'asc' | 'desc';
-    const sortBy = event.active === 'updatedAt' ? 'UpdatedAt' : event.active === 'sellingPrice' ? 'SellingPrice' : event.active === 'sku' ? 'Sku' : 'Name';
-    this.sort.emit({ sortBy, sortDir: dir });
+  emitSort(sortBy: string): void {
+    const nextDir = this.sortDir === 'asc' ? 'desc' : 'asc';
+    this.sort.emit({ sortBy, sortDir: nextDir });
   }
 }

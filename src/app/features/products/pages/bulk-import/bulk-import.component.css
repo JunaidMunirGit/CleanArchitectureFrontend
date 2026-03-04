@@ -1,0 +1,4 @@
+.full-width { width: 100%; }
+.options { margin: 1rem 0; }
+.actions { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+.summary { margin: 1rem 0; }
