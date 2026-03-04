@@ -1,0 +1,14 @@
+/* Global styles */
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Material overrides if needed */
+.mat-mdc-form-field {
+  width: 100%;
+}
