@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, input, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { ProductsApiService } from '../../data-access/products-api.service';
 import { NotificationService } from '../../../../shared/services/notification.service';
 import type { Product, ProductPriceItem } from '../../models/product.models';
@@ -16,6 +17,8 @@ import type { Product, ProductPriceItem } from '../../models/product.models';
   imports: [
     RouterLink,
     FormsModule,
+    DatePipe,
+    DecimalPipe,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -31,7 +34,6 @@ export class BranchPriceEditorComponent implements OnInit {
   private readonly api = inject(ProductsApiService);
   private readonly notification = inject(NotificationService);
 
-  productId = input<string>({ alias: 'id' });
   readonly product = signal<Product | null>(null);
   readonly prices = signal<ProductPriceItem[]>([]);
 
@@ -41,8 +43,11 @@ export class BranchPriceEditorComponent implements OnInit {
 
   displayedColumns = ['branchName', 'price', 'effectiveFrom', 'effectiveTo', 'actions'];
 
+  private routeId: string | null = null;
+
   ngOnInit(): void {
-    const id = this.productId() || this.route.snapshot.paramMap.get('id');
+    this.routeId = this.route.snapshot.paramMap.get('id');
+    const id = this.routeId;
     if (!id) {
       this.router.navigate(['/products']);
       return;
@@ -57,7 +62,7 @@ export class BranchPriceEditorComponent implements OnInit {
   }
 
   get id(): string {
-    return this.productId() || this.route.snapshot.paramMap.get('id') || '';
+    return this.routeId ?? this.route.snapshot.paramMap.get('id') ?? '';
   }
 
   addPrice(): void {

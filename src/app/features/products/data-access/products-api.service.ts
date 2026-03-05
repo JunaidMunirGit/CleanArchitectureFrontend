@@ -56,7 +56,7 @@ export class ProductsApiService {
   }
 
   delete(id: string, rowVersionBase64: string): Observable<void> {
-    return this.api.delete<void>(`/v1/products/${id}`, { rowVersionBase64 });
+    return this.api.delete(`/v1/products/${id}`, { rowVersionBase64 });
   }
 
   activate(id: string): Observable<void> {

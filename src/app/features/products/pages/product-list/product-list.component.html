@@ -32,10 +32,10 @@
   <app-product-list-table
     [items]="dataSource()"
     [totalCount]="(listResult()?.totalCount) ?? 0"
-    [pageIndex]="((listParamsState()?.pageNumber) ?? 1) - 1"
-    [pageSize]="listParamsState()?.pageSize ?? 20"
-    [sortBy]="listParamsState()?.sortBy ?? 'UpdatedAt'"
-    [sortDir]="(listParamsState()?.sortDir as 'asc' | 'desc') ?? 'desc'"
+    [pageIndex]="pageIndex()"
+    [pageSize]="pageSize()"
+    [sortBy]="sortBy()"
+    [sortDir]="sortDir()"
     (page)="onPage($event)"
     (sort)="onSort($event.sortBy, $event.sortDir)"
   ></app-product-list-table>

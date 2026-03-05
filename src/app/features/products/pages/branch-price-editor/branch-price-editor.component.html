@@ -19,7 +19,7 @@
         mat-flat-button
         color="primary"
         (click)="addPrice()"
-        [disabled]="!newBranchId?.trim() || savingBranchId !== null"
+        [disabled]="!newBranchId.trim() || savingBranchId !== null"
       >
         {{ savingBranchId ? 'Saving...' : 'Set price' }}
       </button>

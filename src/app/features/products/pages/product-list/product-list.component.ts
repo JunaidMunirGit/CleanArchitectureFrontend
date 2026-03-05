@@ -47,6 +47,14 @@ export class ProductListComponent implements OnInit {
     return result?.items ?? [];
   });
 
+  readonly pageIndex = computed(() => ((this.listParamsState()?.pageNumber) ?? 1) - 1);
+  readonly pageSize = computed(() => this.listParamsState()?.pageSize ?? 20);
+  readonly sortBy = computed(() => this.listParamsState()?.sortBy ?? 'UpdatedAt');
+  readonly sortDir = computed((): 'asc' | 'desc' => {
+    const dir = this.listParamsState()?.sortDir;
+    return dir === 'asc' || dir === 'desc' ? dir : 'desc';
+  });
+
   ngOnInit(): void {
     this.store.loadList();
   }
