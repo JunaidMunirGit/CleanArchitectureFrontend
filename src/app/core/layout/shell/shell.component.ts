@@ -1,50 +1,36 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 import { LoadingService } from '../../loading.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, MatToolbarModule, MatButtonModule, MatProgressBarModule],
-  template: `
-    <div class="shell">
-      <mat-toolbar color="primary">
-        <a mat-button routerLink="/products">Products</a>
-        <a mat-button routerLink="/branches">Branches</a>
-      </mat-toolbar>
-      @if (loading.isLoading()) {
-        <mat-progress-bar mode="indeterminate" class="top-progress" />
-      }
-      <main class="content">
-        <router-outlet />
-      </main>
-    </div>
-  `,
-  styles: [
-    `
-      .shell {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-      }
-      .content {
-        flex: 1;
-        overflow: auto;
-        padding: 1rem;
-      }
-      .top-progress {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-      }
-    `,
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressBarModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatListModule,
   ],
+  templateUrl: './shell.component.html',
+  styleUrl: './shell.component.css',
 })
 export class ShellComponent {
   readonly loading = inject(LoadingService);
+  readonly auth = inject(AuthService);
+  readonly user = this.auth.currentUser;
+  menuOpen = true;
 }

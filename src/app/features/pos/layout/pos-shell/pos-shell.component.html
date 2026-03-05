@@ -1,0 +1,129 @@
+<div class="pos-shell">
+  <aside class="pos-sidebar">
+    <div class="sidebar-header">
+      <img src="assets/logo-full.svg" alt="Pospay" class="logo-img" />
+      <span class="brand">Cashier Daily Assistant</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a mat-button routerLink="/pos/dashboard" routerLinkActive="active" class="nav-item">
+        <mat-icon>grid_view</mat-icon>
+        <span>Dashboard</span>
+      </a>
+      <a mat-button routerLink="/pos/analytics" routerLinkActive="active" class="nav-item">
+        <mat-icon>bar_chart</mat-icon>
+        <span>Analytics</span>
+      </a>
+      <a mat-button routerLink="/pos/withdrawal" routerLinkActive="active" class="nav-item">
+        <mat-icon>savings</mat-icon>
+        <span>Withdrawal</span>
+      </a>
+      <div class="nav-group">
+        <button mat-button type="button" class="nav-item nav-item-toggle" (click)="manageTableOpen = !manageTableOpen">
+          <mat-icon>table_restaurant</mat-icon>
+          <span>Manage Table</span>
+          <mat-icon class="chevron">{{ manageTableOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </button>
+        @if (manageTableOpen) {
+          <div class="nav-sub">
+            <a mat-button routerLink="/pos/tables/booked" routerLinkActive="active" class="nav-sub-item">Booked</a>
+            <a mat-button routerLink="/pos/tables/actived" routerLinkActive="active" class="nav-sub-item">Actived</a>
+            <a mat-button routerLink="/pos/tables/running" routerLinkActive="active" class="nav-sub-item">Running Order</a>
+          </div>
+        }
+      </div>
+      <a mat-button routerLink="/pos/dishes" routerLinkActive="active" class="nav-item">
+        <mat-icon>shopping_cart</mat-icon>
+        <span>Manage Dish</span>
+      </a>
+      <a mat-button routerLink="/pos/payment" routerLinkActive="active" class="nav-item">
+        <mat-icon>credit_card</mat-icon>
+        <span>Manage Payment</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a mat-button routerLink="/settings" class="nav-item">
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </a>
+      <button mat-button type="button" class="nav-item" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="pos-main">
+    <header class="pos-topbar">
+      <div class="topbar-left">
+        <div class="store-info">
+          <span class="store-avatar">H</span>
+          <span class="store-name">Hadid's Food</span>
+          <button mat-button [matMenuTriggerFor]="statusMenu" class="status-btn">
+            Open
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+        </div>
+        <mat-menu #statusMenu="matMenu">
+          <button mat-menu-item>Open</button>
+          <button mat-menu-item>Closed</button>
+        </mat-menu>
+      </div>
+      <div class="topbar-right">
+        <span class="datetime">
+          <mat-icon>calendar_today</mat-icon>
+          {{ now() | date: 'EEEE, d MMM y \'at\' h:mm a' }}
+        </span>
+        <button mat-icon-button aria-label="Notifications">
+          <mat-icon>notifications_outlined</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="More">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <button mat-button [matMenuTriggerFor]="userMenu" class="user-btn">
+          <span class="user-btn-content">
+            <span class="user-avatar">{{ userAvatarLetter() }}</span>
+            <span class="user-name">{{ userDisplayName() }}</span>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </span>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <div class="menu-user" mat-menu-item disabled>
+            <span class="menu-name">{{ userDisplayName() }}</span>
+            @if (user(); as u) {
+              <span class="menu-email">{{ u.email }}</span>
+            }
+          </div>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Sign out</span>
+          </button>
+        </mat-menu>
+      </div>
+    </header>
+
+    @if (loading.isLoading()) {
+      <mat-progress-bar mode="indeterminate" class="top-progress" />
+    }
+
+    <div class="pos-content">
+      <div class="content-area">
+        <router-outlet />
+      </div>
+      <aside class="order-panel-wrap">
+        <app-order-summary-panel
+          [orderId]="orderId()"
+          [lines]="lines()"
+          [subtotal]="subtotal()"
+          [tax]="tax()"
+          [discount]="discount()"
+          [total]="total()"
+          orderType="Dine-in"
+          selectedTable="A-12B"
+          (removeLine)="onRemoveLine($event)"
+          (updateQuantity)="onUpdateQuantity($event.lineId, $event.quantity)"
+          (confirmPayment)="onConfirmPayment()"
+        />
+      </aside>
+    </div>
+  </div>
+</div>

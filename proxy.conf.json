@@ -3,5 +3,10 @@
     "target": "https://localhost:5001",
     "secure": false,
     "changeOrigin": true
+  },
+  "/users": {
+    "target": "https://localhost:5001",
+    "secure": false,
+    "changeOrigin": true
   }
 }

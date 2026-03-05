@@ -1,0 +1,35 @@
+<div class="pos-product-card">
+  <div class="card-image-wrap">
+    <img
+      [src]="product.imageUrl || 'assets/placeholder-dish.svg'"
+      [alt]="product.name"
+      class="card-image"
+      (error)="$any($event.target).src = 'assets/placeholder-dish.svg'"
+    />
+    <span class="badge" [class.available]="product.isActive" [class.unavailable]="!product.isActive">
+      {{ product.isActive ? 'Available' : 'Not Available' }}
+    </span>
+  </div>
+  <div class="card-body">
+    <h3 class="card-name">{{ product.name }}</h3>
+    <p class="card-price">{{ product.sellingPrice | number: '1.2-2' }}</p>
+    @if (product.isActive) {
+      @if (quantityInCart > 0) {
+        <button mat-stroked-button type="button" class="btn btn-more" (click)="onAdd()">
+          <mat-icon>add_circle_outline</mat-icon>
+          Add More ({{ quantityInCart }})
+        </button>
+      } @else {
+        <button mat-flat-button color="primary" type="button" class="btn btn-add" (click)="onAdd()">
+          <mat-icon>add_shopping_cart</mat-icon>
+          Add to Cart
+        </button>
+      }
+    } @else {
+      <button mat-stroked-button type="button" class="btn btn-disabled" disabled>
+        <mat-icon>remove_circle_outline</mat-icon>
+        Not Available
+      </button>
+    }
+  </div>
+</div>

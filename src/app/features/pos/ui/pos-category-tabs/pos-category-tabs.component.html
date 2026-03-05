@@ -1,0 +1,17 @@
+<div class="category-tabs">
+  <span class="tabs-label">{{ label }}</span>
+  <div class="tabs" role="tablist">
+    @for (tab of tabs; track trackByTabId($index, tab)) {
+      <button
+        type="button"
+        class="tab"
+        [class.active]="selectedId === tab.id"
+        (click)="select(tab.id)"
+        [attr.aria-selected]="selectedId === tab.id"
+        role="tab"
+      >
+        {{ tab.name }} {{ tab.count }}
+      </button>
+    }
+  </div>
+</div>

@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { ProductsStore } from '../../data-access/products.store';
 import { ProductListTableComponent } from '../../ui/product-list-table/product-list-table.component';
@@ -27,6 +28,7 @@ import type { ProductListItem } from '../../models/product.models';
     MatSlideToggleModule,
     MatTableModule,
     MatPaginatorModule,
+    MatCardModule,
     ProductListTableComponent,
   ],
   templateUrl: './product-list.component.html',

@@ -1,23 +1,86 @@
-.product-list .toolbar {
+.product-list {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-card {
+  overflow: hidden;
+}
+
+.page-card mat-card-header {
+  padding: var(--app-spacing-lg, 24px) var(--app-spacing-lg, 24px) 0;
+}
+
+.page-title {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-}
-.product-list .toolbar h1 {
-  margin: 0;
-}
-.product-list .actions {
-  display: flex;
   gap: 0.5rem;
 }
-.product-list .filters {
+
+.page-title mat-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  color: #5b21b6;
+}
+
+.page-card mat-card-subtitle {
+  margin-top: 0.25rem;
+}
+
+.page-card mat-card-content {
+  padding: var(--app-spacing-lg, 24px);
+}
+
+.toolbar {
+  margin-bottom: 1.25rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.actions a[mat-flat-button],
+.actions a[mat-stroked-button] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.actions a mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.filters {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
-.product-list .filter-field {
-  min-width: 160px;
+
+.filter-field {
+  min-width: 180px;
+  max-width: 280px;
+}
+
+.filters button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filters button mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.filters mat-form-field mat-icon[matPrefix] {
+  color: rgba(0, 0, 0, 0.5);
+  margin-right: 4px;
 }

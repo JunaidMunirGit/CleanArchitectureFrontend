@@ -1,0 +1,89 @@
+<div class="order-panel">
+  <div class="panel-header">
+    <h2>Order Summary</h2>
+    <span class="order-id">{{ orderId }}</span>
+  </div>
+
+  <div class="panel-body">
+    <div class="lines" role="list">
+      @for (line of lines; track trackByLineId($index, line)) {
+        <div class="line-item" role="listitem">
+          <img
+            [src]="line.imageUrl || 'assets/placeholder-dish.svg'"
+            [alt]="line.name"
+            class="line-thumb"
+            (error)="$any($event.target).src = 'assets/placeholder-dish.svg'"
+          />
+          <div class="line-details">
+            <span class="line-name">{{ line.name }} ({{ line.quantity }})</span>
+            <span class="line-meta">Notes: {{ line.notes || 'None' }}</span>
+            @if (line.size) {
+              <span class="line-meta">Size: {{ line.size }}</span>
+            }
+            <span class="line-price">${{ (line.price * line.quantity) | number: '1.2-2' }}</span>
+          </div>
+          <div class="line-actions">
+            <button mat-icon-button type="button" (click)="onRemove(line.id)" aria-label="Remove">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+      }
+      @if (lines.length === 0) {
+        <div class="empty">
+          <mat-icon>shopping_cart</mat-icon>
+          <p>Cart is empty.</p>
+          <span>Add items from the menu.</span>
+        </div>
+      }
+    </div>
+
+    <div class="totals">
+      <div class="total-row">
+        <span>Subtotal</span>
+        <span>${{ subtotal | number: '1.2-2' }}</span>
+      </div>
+      <div class="total-row">
+        <span>Taxes</span>
+        <span>${{ tax | number: '1.2-2' }}</span>
+      </div>
+      <div class="total-row discount">
+        <span>Discount</span>
+        <span>-${{ discount | number: '1.2-2' }}</span>
+      </div>
+      <div class="total-row total">
+        <span>Total Payment</span>
+        <span>${{ total | number: '1.2-2' }}</span>
+      </div>
+    </div>
+
+    <div class="options">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Order Type</mat-label>
+        <input matInput [value]="orderType" readonly />
+      </mat-form-field>
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Select Table</mat-label>
+        <input matInput [value]="selectedTable" readonly />
+      </mat-form-field>
+    </div>
+
+    @if (discount > 0) {
+      <div class="promo">
+        <mat-icon>card_giftcard</mat-icon>
+        <span>10% Discount – Minimum Buy 50.00</span>
+      </div>
+    }
+
+    <button
+      mat-flat-button
+      color="primary"
+      class="confirm-btn"
+      [disabled]="lines.length === 0"
+      (click)="onConfirm()"
+    >
+      <mat-icon>payments</mat-icon>
+      Confirm Payment
+    </button>
+  </div>
+</div>

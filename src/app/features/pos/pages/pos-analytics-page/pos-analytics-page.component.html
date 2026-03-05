@@ -1,0 +1,60 @@
+<div class="analytics-page">
+  <header class="page-header">
+    <h1>Analytics</h1>
+    <p class="page-subtitle">Sales and performance overview</p>
+  </header>
+
+  <div class="kpi-cards">
+    <mat-card class="kpi-card">
+      <mat-card-content>
+        <div class="kpi-icon revenue">
+          <mat-icon>payments</mat-icon>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-label">Revenue ({{ periodLabel }})</span>
+          <span class="kpi-value">${{ todayRevenue | number: '1.2-2' }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="kpi-card">
+      <mat-card-content>
+        <div class="kpi-icon orders">
+          <mat-icon>receipt_long</mat-icon>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-label">Orders ({{ periodLabel }})</span>
+          <span class="kpi-value">{{ todayOrders | number: '1.0-0' }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="kpi-card">
+      <mat-card-content>
+        <div class="kpi-icon avg">
+          <mat-icon>trending_up</mat-icon>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-label">Avg. order value</span>
+          <span class="kpi-value">${{ avgOrderValue | number: '1.2-2' }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-card class="section-card">
+    <mat-card-header>
+      <mat-card-title>Sales overview</mat-card-title>
+      <mat-card-subtitle>Summary for the current period</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="empty-state">
+        <mat-icon>bar_chart</mat-icon>
+        <h3>No sales data yet</h3>
+        <p>Sales metrics will appear here once you have order data.</p>
+        <a mat-flat-button color="primary" routerLink="/pos/dashboard">
+          <mat-icon>dashboard</mat-icon>
+          Dashboard
+        </a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

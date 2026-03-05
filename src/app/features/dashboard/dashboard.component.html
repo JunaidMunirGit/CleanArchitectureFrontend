@@ -1,0 +1,77 @@
+<div class="dashboard">
+  <section class="dashboard-hero">
+    <div class="hero-content">
+      <h1 class="welcome">Welcome back</h1>
+      <p class="subtitle">Manage your products, orders, and branches from one place. Use the cards below to jump to each section.</p>
+    </div>
+  </section>
+
+  <section class="quick-actions">
+    <h2 class="section-title">
+      <mat-icon>apps</mat-icon>
+      Quick actions
+    </h2>
+    <div class="quick-cards">
+      <a routerLink="/products" class="quick-card quick-card-primary">
+        <mat-card>
+          <mat-card-content>
+            <div class="card-icon-wrap primary">
+              <mat-icon>inventory_2</mat-icon>
+            </div>
+            <h3 class="card-title">Products</h3>
+            <p class="card-desc">Manage catalog, prices, and stock.</p>
+            <span class="card-link">
+              Manage
+              <mat-icon>arrow_forward</mat-icon>
+            </span>
+          </mat-card-content>
+        </mat-card>
+      </a>
+      <a routerLink="/products/barcode" class="quick-card">
+        <mat-card>
+          <mat-card-content>
+            <div class="card-icon-wrap barcode">
+              <mat-icon>qr_code_scanner</mat-icon>
+            </div>
+            <h3 class="card-title">Barcode lookup</h3>
+            <p class="card-desc">Scan or type a barcode to find a product.</p>
+            <span class="card-link">
+              Open
+              <mat-icon>arrow_forward</mat-icon>
+            </span>
+          </mat-card-content>
+        </mat-card>
+      </a>
+      <a routerLink="/products/bulk" class="quick-card">
+        <mat-card>
+          <mat-card-content>
+            <div class="card-icon-wrap bulk">
+              <mat-icon>upload_file</mat-icon>
+            </div>
+            <h3 class="card-title">Bulk import</h3>
+            <p class="card-desc">Import products from JSON.</p>
+            <span class="card-link">
+              Import
+              <mat-icon>arrow_forward</mat-icon>
+            </span>
+          </mat-card-content>
+        </mat-card>
+      </a>
+      <a routerLink="/branches" class="quick-card">
+        <mat-card>
+          <mat-card-content>
+            <div class="card-icon-wrap branches">
+              <mat-icon>store</mat-icon>
+            </div>
+            <h3 class="card-title">Branches</h3>
+            <p class="card-desc">Manage branch locations and settings.</p>
+            <span class="card-link">
+              Manage
+              <mat-icon>arrow_forward</mat-icon>
+            </span>
+          </mat-card-content>
+        </mat-card>
+      </a>
+    </div>
+  </section>
+</div>
