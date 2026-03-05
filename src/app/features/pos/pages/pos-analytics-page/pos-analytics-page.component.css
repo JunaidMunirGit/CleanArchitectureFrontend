@@ -153,3 +153,34 @@
   margin-right: 6px;
   color: inherit;
 }
+
+.loading-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+}
+
+.loading-wrap.small {
+  padding: 16px;
+  justify-content: center;
+}
+
+.empty-state.small {
+  padding: 24px 16px;
+}
+
+.empty-state.small mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.report-table {
+  width: 100%;
+}
+
+.report-table th {
+  font-weight: 600;
+  color: #475569;
+}

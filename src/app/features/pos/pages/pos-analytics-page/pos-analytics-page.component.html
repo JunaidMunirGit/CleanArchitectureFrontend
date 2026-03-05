@@ -4,57 +4,118 @@
     <p class="page-subtitle">Sales and performance overview</p>
   </header>
 
-  <div class="kpi-cards">
-    <mat-card class="kpi-card">
-      <mat-card-content>
-        <div class="kpi-icon revenue">
-          <mat-icon>payments</mat-icon>
-        </div>
-        <div class="kpi-body">
-          <span class="kpi-label">Revenue ({{ periodLabel }})</span>
-          <span class="kpi-value">${{ todayRevenue | number: '1.2-2' }}</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="kpi-card">
-      <mat-card-content>
-        <div class="kpi-icon orders">
-          <mat-icon>receipt_long</mat-icon>
-        </div>
-        <div class="kpi-body">
-          <span class="kpi-label">Orders ({{ periodLabel }})</span>
-          <span class="kpi-value">{{ todayOrders | number: '1.0-0' }}</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="kpi-card">
-      <mat-card-content>
-        <div class="kpi-icon avg">
-          <mat-icon>trending_up</mat-icon>
-        </div>
-        <div class="kpi-body">
-          <span class="kpi-label">Avg. order value</span>
-          <span class="kpi-value">${{ avgOrderValue | number: '1.2-2' }}</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  @if (loading()) {
+    <div class="loading-wrap">
+      <mat-spinner diameter="32" />
+      <span>Loading report...</span>
+    </div>
+  } @else {
+    <div class="kpi-cards">
+      <mat-card class="kpi-card">
+        <mat-card-content>
+          <div class="kpi-icon revenue">
+            <mat-icon>payments</mat-icon>
+          </div>
+          <div class="kpi-body">
+            <span class="kpi-label">Revenue ({{ periodLabel }})</span>
+            <span class="kpi-value">${{ todayRevenue() | number: '1.2-2' }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="kpi-card">
+        <mat-card-content>
+          <div class="kpi-icon orders">
+            <mat-icon>receipt_long</mat-icon>
+          </div>
+          <div class="kpi-body">
+            <span class="kpi-label">Orders ({{ periodLabel }})</span>
+            <span class="kpi-value">{{ todayOrders() | number: '1.0-0' }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="kpi-card">
+        <mat-card-content>
+          <div class="kpi-icon avg">
+            <mat-icon>trending_up</mat-icon>
+          </div>
+          <div class="kpi-body">
+            <span class="kpi-label">Avg. order value</span>
+            <span class="kpi-value">${{ avgOrderValue() | number: '1.2-2' }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
 
-  <mat-card class="section-card">
-    <mat-card-header>
-      <mat-card-title>Sales overview</mat-card-title>
-      <mat-card-subtitle>Summary for the current period</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="empty-state">
-        <mat-icon>bar_chart</mat-icon>
-        <h3>No sales data yet</h3>
-        <p>Sales metrics will appear here once you have order data.</p>
-        <a mat-flat-button color="primary" routerLink="/pos/dashboard">
-          <mat-icon>dashboard</mat-icon>
-          Dashboard
-        </a>
-      </div>
-    </mat-card-content>
-  </mat-card>
+    <mat-card class="section-card">
+      <mat-card-header>
+        <mat-card-title>Top items (today)</mat-card-title>
+        <mat-card-subtitle>By quantity sold</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        @if (topItems().length > 0) {
+          <table mat-table [dataSource]="topItems()" class="report-table">
+            <ng-container matColumnDef="productName">
+              <th mat-header-cell *matHeaderCellDef>Product</th>
+              <td mat-cell *matCellDef="let row">{{ row.productName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="quantitySold">
+              <th mat-header-cell *matHeaderCellDef>Qty sold</th>
+              <td mat-cell *matCellDef="let row">{{ row.quantitySold }}</td>
+            </ng-container>
+            <ng-container matColumnDef="revenue">
+              <th mat-header-cell *matHeaderCellDef>Revenue</th>
+              <td mat-cell *matCellDef="let row">${{ row.revenue | number: '1.2-2' }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['productName', 'quantitySold', 'revenue']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['productName', 'quantitySold', 'revenue']"></tr>
+          </table>
+        } @else {
+          <div class="empty-state small">
+            <mat-icon>bar_chart</mat-icon>
+            <p>No sales data for today yet.</p>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="section-card">
+      <mat-card-header>
+        <mat-card-title>Low stock alerts</mat-card-title>
+        <mat-card-subtitle>Products at or below reorder level</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        @if (lowStockLoading()) {
+          <div class="loading-wrap small">
+            <mat-spinner diameter="24" />
+          </div>
+        } @else if (lowStockItems().length > 0) {
+          <table mat-table [dataSource]="lowStockItems()" class="report-table">
+            <ng-container matColumnDef="productName">
+              <th mat-header-cell *matHeaderCellDef>Product</th>
+              <td mat-cell *matCellDef="let row">{{ row.productName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="sku">
+              <th mat-header-cell *matHeaderCellDef>SKU</th>
+              <td mat-cell *matCellDef="let row">{{ row.sku }}</td>
+            </ng-container>
+            <ng-container matColumnDef="quantityOnHand">
+              <th mat-header-cell *matHeaderCellDef>On hand</th>
+              <td mat-cell *matCellDef="let row">{{ row.quantityOnHand }}</td>
+            </ng-container>
+            <ng-container matColumnDef="reorderLevel">
+              <th mat-header-cell *matHeaderCellDef>Reorder at</th>
+              <td mat-cell *matCellDef="let row">{{ row.reorderLevel }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['productName', 'sku', 'quantityOnHand', 'reorderLevel']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['productName', 'sku', 'quantityOnHand', 'reorderLevel']"></tr>
+          </table>
+        } @else {
+          <div class="empty-state small">
+            <mat-icon>check_circle</mat-icon>
+            <p>No low stock items.</p>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  }
 </div>

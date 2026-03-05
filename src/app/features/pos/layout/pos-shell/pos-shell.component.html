@@ -5,6 +5,10 @@
       <span class="brand">Cashier Daily Assistant</span>
     </div>
     <nav class="sidebar-nav">
+      <a mat-button routerLink="/pos/order" routerLinkActive="active" class="nav-item">
+        <mat-icon>add_shopping_cart</mat-icon>
+        <span>New Order</span>
+      </a>
       <a mat-button routerLink="/pos/dashboard" routerLinkActive="active" class="nav-item">
         <mat-icon>grid_view</mat-icon>
         <span>Dashboard</span>
@@ -117,11 +121,15 @@
           [tax]="tax()"
           [discount]="discount()"
           [total]="total()"
+          [paymentMethod]="cart.paymentMethod()"
+          [splitPayments]="cart.splitPayments()"
           orderType="Dine-in"
           selectedTable="A-12B"
           (removeLine)="onRemoveLine($event)"
           (updateQuantity)="onUpdateQuantity($event.lineId, $event.quantity)"
           (confirmPayment)="onConfirmPayment()"
+          (paymentMethodChange)="onPaymentMethodChange($event)"
+          (splitPaymentsChange)="onSplitPaymentsChange($event)"
         />
       </aside>
     </div>

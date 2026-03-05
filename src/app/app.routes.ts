@@ -21,6 +21,11 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'analytics', pathMatch: 'full' },
       {
+        path: 'order',
+        loadComponent: () =>
+          import('./features/pos/pages/pos-order-page/pos-order-page.component').then((m) => m.PosOrderPageComponent),
+      },
+      {
         path: 'dashboard',
         loadComponent: () =>
           import('./features/pos/pages/pos-placeholder/pos-placeholder.component').then((m) => m.PosPlaceholderComponent),

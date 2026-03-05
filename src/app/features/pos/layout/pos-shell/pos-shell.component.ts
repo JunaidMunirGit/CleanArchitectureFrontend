@@ -7,8 +7,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { LoadingService } from '../../../../core/loading.service';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { OrderCartService } from '../../data-access/order-cart.service';
+import { PosOrdersApiService } from '../../data-access/pos-orders.api.service';
 import { OrderSummaryPanelComponent } from '../../ui/order-summary-panel/order-summary-panel.component';
 import { DatePipe } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import type { PaymentMethod, CreateOrderPaymentRequest } from '../../data-access/models/pos-order.models';
 
 @Component({
   selector: 'app-pos-shell',
@@ -31,7 +34,9 @@ import { DatePipe } from '@angular/common';
 export class PosShellComponent {
   readonly loading = inject(LoadingService);
   private readonly auth = inject(AuthService);
-  private readonly cart = inject(OrderCartService);
+  readonly cart = inject(OrderCartService);
+  private readonly ordersApi = inject(PosOrdersApiService);
+  private readonly snackBar = inject(MatSnackBar);
 
   readonly user = this.auth.currentUser;
   readonly userDisplayName = computed(() => {
@@ -65,8 +70,30 @@ export class PosShellComponent {
     this.cart.updateQuantity(lineId, quantity);
   }
 
+  onPaymentMethodChange(method: PaymentMethod): void {
+    this.cart.setPaymentMethod(method);
+  }
+
+  onSplitPaymentsChange(payments: CreateOrderPaymentRequest[]): void {
+    this.cart.setSplitPayments(payments);
+  }
+
   onConfirmPayment(): void {
-    this.cart.confirmOrder();
+    if (this.cart.isEmpty()) return;
+    const payload = this.cart.buildCreateOrderPayload();
+    this.loading.show();
+    this.ordersApi.createOrder(payload).subscribe({
+      next: () => {
+        this.loading.hide();
+        this.cart.clear();
+        this.snackBar.open('Order completed successfully', 'Close', { duration: 3000 });
+      },
+      error: (err) => {
+        this.loading.hide();
+        const msg = err?.error?.detail || err?.error?.title || err?.message || 'Order failed';
+        this.snackBar.open(msg, 'Close', { duration: 5000 });
+      },
+    });
   }
 
   logout(): void {

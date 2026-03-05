@@ -203,3 +203,20 @@
 .confirm-btn:disabled {
   opacity: 0.6;
 }
+
+.split-payments {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.split-payments .mat-mdc-form-field {
+  width: 100%;
+}
+
+.split-error {
+  font-size: 0.8rem;
+  color: #dc2626;
+  margin: 0 0 8px 0;
+}

@@ -1,4 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
+import type { CreateOrderRequest, PaymentMethod, CreateOrderPaymentRequest } from './models/pos-order.models';
 
 export interface OrderLine {
   id: string;
@@ -23,8 +24,12 @@ export class OrderCartService {
   );
 
   readonly taxRate = 0.1;
+  readonly taxPercent = 10;
   readonly tax = computed(() => Math.round(this.subtotal() * this.taxRate * 100) / 100);
+  private readonly _discountOverride = signal<number | null>(null);
   readonly discount = computed(() => {
+    const over = this._discountOverride();
+    if (over !== null && over !== undefined) return Math.max(0, over);
     const sub = this.subtotal();
     return sub >= 50 ? Math.round(sub * 0.1 * 100) / 100 : 0;
   });
@@ -34,6 +39,35 @@ export class OrderCartService {
 
   readonly orderId = computed(() => `#B${Date.now().toString(36).toUpperCase().slice(-6)}`);
   readonly isEmpty = computed(() => this._lines().length === 0);
+
+  readonly paymentMethod = signal<PaymentMethod>('Cash');
+  readonly splitPayments = signal<CreateOrderPaymentRequest[]>([]);
+
+  setDiscountOverride(amount: number | null): void {
+    this._discountOverride.set(amount);
+  }
+
+  setPaymentMethod(method: PaymentMethod): void {
+    this.paymentMethod.set(method);
+  }
+
+  setSplitPayments(payments: CreateOrderPaymentRequest[]): void {
+    this.splitPayments.set(payments);
+  }
+
+  buildCreateOrderPayload(): CreateOrderRequest {
+    const lines = this._lines().map((l) => ({ productId: l.productId, quantity: l.quantity }));
+    const discountAmount = this.discount();
+    const method = this.paymentMethod();
+    const split = method === 'Split' ? this.splitPayments() : undefined;
+    return {
+      lines,
+      discountAmount,
+      taxPercent: this.taxPercent,
+      paymentMethod: method,
+      splitPayments: split?.length ? split : undefined,
+    };
+  }
 
   addProduct(productId: string, name: string, price: number, imageUrl?: string): void {
     const existing = this._lines().find((l) => l.productId === productId && !l.notes && !l.size);

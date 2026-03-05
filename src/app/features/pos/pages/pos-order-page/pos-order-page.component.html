@@ -1,0 +1,49 @@
+<div class="order-page">
+  <header class="page-header">
+    <h1>New Order</h1>
+    <p class="page-subtitle">Search and add products to the cart</p>
+  </header>
+
+  <div class="search-bar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search products</mat-label>
+      <input
+        matInput
+        [ngModel]="searchQ()"
+        (ngModelChange)="searchQ.set($event)"
+        (keyup.enter)="onSearch()"
+        placeholder="Name or SKU..."
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <button mat-flat-button color="primary" (click)="onSearch()">
+      <mat-icon>search</mat-icon>
+      Search
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-wrap">
+      <mat-spinner diameter="40" />
+      <span>Loading products...</span>
+    </div>
+  } @else {
+    <div class="product-grid" role="list">
+      @for (card of productCards(); track card.id) {
+        <div class="product-cell" role="listitem">
+          <app-pos-product-card
+            [product]="card"
+            [quantityInCart]="quantityInCart(card.id)"
+            (addToCart)="addToCart(card)"
+          />
+        </div>
+      }
+    </div>
+    @if (productCards().length === 0) {
+      <div class="empty-state">
+        <mat-icon>inventory_2</mat-icon>
+        <p>No products found. Try a different search or add products in the catalog.</p>
+      </div>
+    }
+  }
+</div>
