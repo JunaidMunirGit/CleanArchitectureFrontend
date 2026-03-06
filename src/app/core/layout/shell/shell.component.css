@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: #f1f5f9;
+  background: var(--app-bg-page);
 }
 
 .topbar {
@@ -44,6 +44,13 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
+/* Theme toggle in topbar */
+.topbar button[mat-icon-button] mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
 .top-progress {
   position: absolute;
   top: 0;
@@ -60,8 +67,8 @@
 
 .sidebar {
   width: 260px;
-  background: #fff;
-  border-right: 1px solid #e2e8f0;
+  background: var(--app-bg-sidebar);
+  border-right: 1px solid var(--app-border);
   transition: width 0.2s ease;
   overflow-x: hidden;
   flex-shrink: 0;
@@ -79,7 +86,7 @@
 }
 
 .sidebar a[mat-list-item] {
-  color: #475569;
+  color: var(--app-text-secondary);
   border-radius: var(--app-radius-md, 12px);
   margin: 0 8px 4px;
   min-height: 48px;
@@ -106,7 +113,7 @@
   overflow: auto;
   padding: var(--app-spacing-lg, 24px);
   min-width: 0;
-  background: #f8fafc;
+  background: var(--app-bg-page);
 }
 
 .menu-user {
@@ -125,4 +132,18 @@
 .menu-email {
   font-size: 0.8rem;
   color: rgba(0, 0, 0, 0.6);
+}
+
+:host-context(body.dark-theme) .sidebar a[mat-list-item]:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+}
+
+:host-context(body.dark-theme) .sidebar a[mat-list-item].active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #c4b5fd;
+}
+
+:host-context(body.dark-theme) .menu-email {
+  color: rgba(255, 255, 255, 0.6);
 }

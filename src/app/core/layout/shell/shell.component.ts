@@ -9,6 +9,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { LoadingService } from '../../loading.service';
 import { AuthService } from '../../auth/auth.service';
+import { ThemeService } from '../../theme/theme.service';
 
 @Component({
   selector: 'app-shell',
@@ -31,6 +32,7 @@ import { AuthService } from '../../auth/auth.service';
 export class ShellComponent {
   readonly loading = inject(LoadingService);
   readonly auth = inject(AuthService);
+  readonly theme = inject(ThemeService);
   readonly user = this.auth.currentUser;
   menuOpen = true;
 }

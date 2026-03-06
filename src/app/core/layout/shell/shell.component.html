@@ -7,6 +7,9 @@
       <img src="assets/logo-full.svg" alt="Pospay" class="brand-logo" />
     </a>
     <span class="spacer"></span>
+    <button mat-icon-button (click)="theme.toggle()" [attr.aria-label]="theme.isDark() ? 'Switch to light mode' : 'Switch to dark mode'" title="{{ theme.isDark() ? 'Light mode' : 'Dark mode' }}">
+      <mat-icon>{{ theme.isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
     <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="User menu">
       <mat-icon>account_circle</mat-icon>
     </button>
@@ -34,6 +37,10 @@
         <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
           <mat-icon matListItemIcon>dashboard</mat-icon>
           <span matListItemTitle>Dashboard</span>
+        </a>
+        <a mat-list-item routerLink="/pos/order" routerLinkActive="active">
+          <mat-icon matListItemIcon>point_of_sale</mat-icon>
+          <span matListItemTitle>POS / New Order</span>
         </a>
         <a mat-list-item routerLink="/products" routerLinkActive="active">
           <mat-icon matListItemIcon>inventory_2</mat-icon>

@@ -12,6 +12,7 @@ import { OrderSummaryPanelComponent } from '../../ui/order-summary-panel/order-s
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import type { PaymentMethod, CreateOrderPaymentRequest } from '../../data-access/models/pos-order.models';
+import { ThemeService } from '../../../../core/theme/theme.service';
 
 @Component({
   selector: 'app-pos-shell',
@@ -37,6 +38,7 @@ export class PosShellComponent {
   readonly cart = inject(OrderCartService);
   private readonly ordersApi = inject(PosOrdersApiService);
   private readonly snackBar = inject(MatSnackBar);
+  readonly theme = inject(ThemeService);
 
   readonly user = this.auth.currentUser;
   readonly userDisplayName = computed(() => {

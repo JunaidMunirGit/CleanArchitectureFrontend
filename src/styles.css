@@ -13,6 +13,82 @@
   --app-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
   --app-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
   --app-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --app-bg-page: #f8fafc;
+  --app-bg-surface: #fff;
+  --app-bg-sidebar: #fff;
+  --app-border: #e2e8f0;
+  --app-text: #1e293b;
+  --app-text-secondary: #64748b;
+}
+
+/* Dark theme */
+body.dark-theme {
+  --app-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --app-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --app-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --app-bg-page: #0f172a;
+  --app-bg-surface: #1e293b;
+  --app-bg-sidebar: #1e293b;
+  --app-border: #334155;
+  --app-text: #f1f5f9;
+  --app-text-secondary: #94a3b8;
+  background: var(--app-bg-page);
+  color: var(--app-text);
+}
+
+body.dark-theme .mat-mdc-card {
+  background: var(--app-bg-surface);
+  color: var(--app-text);
+  border: 1px solid var(--app-border);
+}
+
+body.dark-theme .mat-mdc-form-field .mdc-text-field--filled {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .mat-mdc-dialog-container {
+  --mdc-dialog-container-color: #1e293b;
+}
+
+/* POS shell dark theme */
+body.dark-theme .pos-shell {
+  background: var(--app-bg-page);
+}
+
+body.dark-theme .pos-topbar {
+  background: var(--app-bg-surface);
+  border-bottom-color: var(--app-border);
+}
+
+body.dark-theme .pos-topbar .store-name,
+body.dark-theme .pos-topbar .user-btn,
+body.dark-theme .pos-topbar .datetime {
+  color: var(--app-text);
+}
+
+body.dark-theme .pos-topbar .datetime {
+  color: var(--app-text-secondary);
+}
+
+body.dark-theme .order-panel-wrap {
+  background: var(--app-bg-surface);
+  border-left-color: var(--app-border);
+}
+
+body.dark-theme .order-panel {
+  background: var(--app-bg-surface);
+  border-left-color: var(--app-border);
+}
+
+body.dark-theme .panel-header h2,
+body.dark-theme .line-name,
+body.dark-theme .total-row.total span {
+  color: var(--app-text);
+}
+
+body.dark-theme .order-panel .line-meta,
+body.dark-theme .order-panel .total-row:not(.total) {
+  color: var(--app-text-secondary);
 }
 
 html, body {
